@@ -90,6 +90,14 @@ export const DEFAULT_TRANSLATIONS: Translation[] = [
     lastModified: new Date().toISOString(),
   },
   {
+    id: '6a',
+    key: 'auth.loginError',
+    en: 'Login error',
+    fr: 'Erreur de connexion',
+    category: 'auth',
+    lastModified: new Date().toISOString(),
+  },
+  {
     id: '7',
     key: 'auth.logout',
     en: 'Log Out',

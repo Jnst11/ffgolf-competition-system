@@ -44,7 +44,7 @@ export default function HomePage() {
 
     const result = await login(email, password)
     if (!result.success) {
-      setError(result.error || 'Erreur de connexion')
+      setError(result.error || t('auth.loginError', 'Login error'))
     }
   }
 
@@ -52,7 +52,7 @@ export default function HomePage() {
     setError('')
     const result = await loginMethod()
     if (!result.success) {
-      setError(result.error || 'Erreur de connexion')
+      setError(result.error || t('auth.loginError', 'Login error'))
     }
   }
 
