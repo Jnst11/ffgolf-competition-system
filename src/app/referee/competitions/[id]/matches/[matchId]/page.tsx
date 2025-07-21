@@ -280,7 +280,7 @@ export default function RefereeMatchDetailPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">Priority</span>
-                  <span className="text-sm font-medium text-red-600">Haute (>48h)</span>
+                  <span className="text-sm font-medium text-red-600">Haute (&gt;48h)</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-500">Délai limite</span>
