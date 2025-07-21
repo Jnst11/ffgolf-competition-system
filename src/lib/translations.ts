@@ -1814,6 +1814,38 @@ export const DEFAULT_TRANSLATIONS: Translation[] = [
     category: 'common',
     lastModified: new Date().toISOString(),
   },
+  {
+    id: '201',
+    key: 'competition.noActiveCompetitions',
+    en: 'No active competitions found',
+    fr: 'Aucune compétition active trouvée',
+    category: 'competition',
+    lastModified: new Date().toISOString(),
+  },
+  {
+    id: '202',
+    key: 'competition.noCompetitions',
+    en: 'No competitions found',
+    fr: 'Aucune compétition trouvée',
+    category: 'competition',
+    lastModified: new Date().toISOString(),
+  },
+  {
+    id: '203',
+    key: 'competition.noActiveTeamMatches',
+    en: 'No active team matches found',
+    fr: 'Aucune compétition par équipes active trouvée',
+    category: 'competition',
+    lastModified: new Date().toISOString(),
+  },
+  {
+    id: '204',
+    key: 'competition.noTeamMatches',
+    en: 'No team matches found',
+    fr: 'Aucune compétition par équipes trouvée',
+    category: 'competition',
+    lastModified: new Date().toISOString(),
+  },
 ];
 
 // Translation service class
