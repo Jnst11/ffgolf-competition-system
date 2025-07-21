@@ -70,6 +70,26 @@ const teamLeaderboard = [
   { position: 16, team: 'Tours Golf Club', totalScore: 315, players: 'P. Lambert, C. Perez', bracketType: 'relegation' }
 ]
 
+// Predefined teams for dropdown selection
+const availableTeams = [
+  'Golf Club de Paris',
+  'RC Bordeaux Golf',
+  'Golf de Lyon',
+  'AS Monaco Golf',
+  'Marseille Golf Club',
+  'Toulouse FC Golf',
+  'Lille OSC Golf',
+  'Strasbourg Golf',
+  'Nice Golf Club',
+  'Nantes Golf',
+  'Reims Golf Club',
+  'Montpellier Golf',
+  'Dijon Golf Club',
+  'Clermont Golf',
+  'Poitiers Golf',
+  'Tours Golf Club'
+]
+
 export default function EventManagementPage() {
   const { t } = useTranslation()
   const { logout } = useAuth()
@@ -79,6 +99,20 @@ export default function EventManagementPage() {
   const [editingScore, setEditingScore] = useState<{golferId: number, round: string, value: string} | null>(null)
   const [editingGolfer, setEditingGolfer] = useState<any>(null)
   const [golferList, setGolferList] = useState(golfers)
+  const [showAddGolferModal, setShowAddGolferModal] = useState(false)
+  const [showInactiveGolfers, setShowInactiveGolfers] = useState(false)
+  const [newGolfer, setNewGolfer] = useState({
+    name: '',
+    team: '',
+    homeClub: '',
+    handicap: 0,
+    phone: '',
+    email: '',
+    teetime: '08:00',
+    course: 'Albatros',
+    hole: 1,
+    group: 1
+  })
 
   const handleLogout = () => {
     logout()
@@ -91,6 +125,17 @@ export default function EventManagementPage() {
       prevGolfers.map(golfer => 
         golfer.id === golferId 
           ? { ...golfer, isActive: false }
+          : golfer
+      )
+    )
+  }
+
+  // Restore golfer function
+  const handleRestoreGolfer = (golferId: number) => {
+    setGolferList(prevGolfers => 
+      prevGolfers.map(golfer => 
+        golfer.id === golferId 
+          ? { ...golfer, isActive: true }
           : golfer
       )
     )
@@ -120,8 +165,61 @@ export default function EventManagementPage() {
     setEditingGolfer(null)
   }
 
-  // Filter out soft-deleted golfers for display
+  // Filter golfers based on active/inactive toggle
+  const displayedGolfers = showInactiveGolfers 
+    ? golferList.filter(golfer => !golfer.isActive) 
+    : golferList.filter(golfer => golfer.isActive)
+  
+  // Keep activeGolfers for other tabs (only active golfers should appear in tee sheet and scoring)
   const activeGolfers = golferList.filter(golfer => golfer.isActive)
+  const inactiveGolfers = golferList.filter(golfer => !golfer.isActive)
+
+  // Add new golfer function
+  const handleAddGolfer = () => {
+    setShowAddGolferModal(true)
+  }
+
+  // Save new golfer function
+  const handleSaveNewGolfer = () => {
+    if (!newGolfer.name.trim() || !newGolfer.team) {
+      alert('Please fill in at least Name and Team fields')
+      return
+    }
+
+    const newId = Math.max(...golferList.map(g => g.id)) + 1
+    const golferToAdd = {
+      ...newGolfer,
+      id: newId,
+      isActive: true,
+      scores: { round1: null, round2: null, total: 0, status: 'pending' }
+    }
+
+    setGolferList(prevGolfers => [...prevGolfers, golferToAdd])
+    setShowAddGolferModal(false)
+    resetNewGolferForm()
+  }
+
+  // Cancel add golfer function
+  const handleCancelAddGolfer = () => {
+    setShowAddGolferModal(false)
+    resetNewGolferForm()
+  }
+
+  // Reset new golfer form
+  const resetNewGolferForm = () => {
+    setNewGolfer({
+      name: '',
+      team: '',
+      homeClub: '',
+      handicap: 0,
+      phone: '',
+      email: '',
+      teetime: '08:00',
+      course: 'Albatros',
+      hole: 1,
+      group: 1
+    })
+  }
 
   const promotionTeams = teamLeaderboard.filter(team => team.bracketType === 'promotion')
   const relegationTeams = teamLeaderboard.filter(team => team.bracketType === 'relegation')
@@ -288,10 +386,33 @@ export default function EventManagementPage() {
           <div className="px-6 py-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-medium text-gray-900">{t('golf.golferManagement', 'Golfer Management')}</h2>
-              <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-ffgolf hover:bg-ffgolf-700">
-                <PlusIcon className="h-4 w-4 mr-2" />
-                {t('golf.addGolfer', 'Add Golfer')}
-              </button>
+              <div className="flex items-center space-x-3">
+                <button 
+                  onClick={() => setShowInactiveGolfers(!showInactiveGolfers)}
+                  className={`inline-flex items-center px-3 py-2 border rounded-md text-sm font-medium ${
+                    showInactiveGolfers 
+                      ? 'border-orange-300 text-orange-700 bg-orange-50 hover:bg-orange-100' 
+                      : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
+                  }`}
+                >
+                  {showInactiveGolfers 
+                    ? t('golf.showActiveGolfers', 'Show Active') 
+                    : t('golf.showInactiveGolfers', 'Show Inactive')
+                  }
+                  {inactiveGolfers.length > 0 && !showInactiveGolfers && (
+                    <span className="ml-2 bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded-full">
+                      {inactiveGolfers.length}
+                    </span>
+                  )}
+                </button>
+                <button 
+                  onClick={handleAddGolfer}
+                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-ffgolf hover:bg-ffgolf-700"
+                >
+                  <PlusIcon className="h-4 w-4 mr-2" />
+                  {t('golf.addGolfer', 'Add Golfer')}
+                </button>
+              </div>
             </div>
           </div>
           <div className="overflow-hidden">
@@ -307,9 +428,12 @@ export default function EventManagementPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {activeGolfers.map((golfer) => (
-                  <tr key={golfer.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{golfer.name}</td>
+                {displayedGolfers.map((golfer) => (
+                  <tr key={golfer.id} className={`hover:bg-gray-50 ${!golfer.isActive ? 'bg-gray-50' : ''}`}>
+                    <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${golfer.isActive ? 'text-gray-900' : 'text-gray-500'}`}>
+                      {golfer.name}
+                      {!golfer.isActive && <span className="ml-2 text-xs text-orange-600">(Inactive)</span>}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{golfer.team}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{golfer.homeClub}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{golfer.handicap}</td>
@@ -318,20 +442,32 @@ export default function EventManagementPage() {
                       <div className="text-xs">{golfer.email}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button 
-                        onClick={() => handleEditGolfer(golfer)}
-                        className="text-ffgolf hover:text-ffgolf-800 mr-3"
-                        title={t('common.edit', 'Edit')}
-                      >
-                        <PencilIcon className="h-4 w-4" />
-                      </button>
-                      <button 
-                        onClick={() => handleSoftDeleteGolfer(golfer.id)}
-                        className="text-orange-600 hover:text-orange-800"
-                        title={t('golf.deactivateGolfer', 'Deactivate')}
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </button>
+                      {golfer.isActive ? (
+                        <>
+                          <button 
+                            onClick={() => handleEditGolfer(golfer)}
+                            className="text-ffgolf hover:text-ffgolf-800 mr-3"
+                            title={t('common.edit', 'Edit')}
+                          >
+                            <PencilIcon className="h-4 w-4" />
+                          </button>
+                          <button 
+                            onClick={() => handleSoftDeleteGolfer(golfer.id)}
+                            className="text-orange-600 hover:text-orange-800"
+                            title={t('golf.deactivateGolfer', 'Deactivate')}
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </button>
+                        </>
+                      ) : (
+                        <button 
+                          onClick={() => handleRestoreGolfer(golfer.id)}
+                          className="inline-flex items-center px-3 py-1 border border-green-300 rounded text-sm font-medium text-green-700 bg-green-50 hover:bg-green-100"
+                          title={t('golf.restoreGolfer', 'Restore')}
+                        >
+                          {t('golf.restore', 'Restore')}
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -892,6 +1028,164 @@ export default function EventManagementPage() {
                 className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-ffgolf hover:bg-ffgolf-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ffgolf"
               >
                 {t('common.save', 'Save')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Golfer Modal */}
+      {showAddGolferModal && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-md bg-white">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900">
+                {t('golf.addNewGolfer', 'Add New Golfer')}
+              </h3>
+              <button 
+                onClick={handleCancelAddGolfer}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="mt-4 space-y-4">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  {t('golf.name', 'Name')} <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={newGolfer.name}
+                  onChange={(e) => setNewGolfer({...newGolfer, name: e.target.value})}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                  placeholder={t('golf.namePlaceholder', 'Enter golfer name')}
+                />
+              </div>
+
+              {/* Team Dropdown */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  {t('team.team', 'Team')} <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={newGolfer.team}
+                  onChange={(e) => setNewGolfer({...newGolfer, team: e.target.value})}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                >
+                  <option value="">{t('team.selectTeam', 'Select a team')}</option>
+                  {availableTeams.map((team) => (
+                    <option key={team} value={team}>{team}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Home Club */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">{t('golf.homeClub', 'Home Club')}</label>
+                <input
+                  type="text"
+                  value={newGolfer.homeClub}
+                  onChange={(e) => setNewGolfer({...newGolfer, homeClub: e.target.value})}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                  placeholder={t('golf.homeClubPlaceholder', 'Enter home club name')}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Handicap */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">{t('golf.handicap', 'Handicap')}</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={newGolfer.handicap}
+                    onChange={(e) => setNewGolfer({...newGolfer, handicap: parseFloat(e.target.value) || 0})}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                    placeholder="0.0"
+                  />
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">{t('common.phone', 'Phone')}</label>
+                  <input
+                    type="tel"
+                    value={newGolfer.phone}
+                    onChange={(e) => setNewGolfer({...newGolfer, phone: e.target.value})}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                    placeholder="+33 1 23 45 67 89"
+                  />
+                </div>
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">{t('common.email', 'Email')}</label>
+                <input
+                  type="email"
+                  value={newGolfer.email}
+                  onChange={(e) => setNewGolfer({...newGolfer, email: e.target.value})}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                  placeholder="golfer@example.com"
+                />
+              </div>
+
+              {/* Tee Time Assignment */}
+              <div className="border-t pt-4">
+                <h4 className="text-sm font-medium text-gray-900 mb-3">{t('golf.teeTimeAssignment', 'Tee Time Assignment')}</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">{t('golf.teeTime', 'Tee Time')}</label>
+                    <input
+                      type="time"
+                      value={newGolfer.teetime}
+                      onChange={(e) => setNewGolfer({...newGolfer, teetime: e.target.value})}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">{t('golf.hole', 'Starting Hole')}</label>
+                    <select
+                      value={newGolfer.hole}
+                      onChange={(e) => setNewGolfer({...newGolfer, hole: parseInt(e.target.value)})}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                    >
+                      {Array.from({length: 18}, (_, i) => (
+                        <option key={i + 1} value={i + 1}>Hole {i + 1}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">{t('golf.group', 'Group')}</label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={newGolfer.group}
+                      onChange={(e) => setNewGolfer({...newGolfer, group: parseInt(e.target.value) || 1})}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+              <button
+                onClick={handleCancelAddGolfer}
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ffgolf"
+              >
+                {t('common.cancel', 'Cancel')}
+              </button>
+              <button
+                onClick={handleSaveNewGolfer}
+                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-ffgolf hover:bg-ffgolf-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ffgolf"
+              >
+                {t('golf.addGolfer', 'Add Golfer')}
               </button>
             </div>
           </div>
