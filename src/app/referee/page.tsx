@@ -128,7 +128,7 @@ export default function RefereeDashboard() {
                 />
               </Link>
               <span className="ml-4 px-3 py-1 text-xs font-medium bg-ffgolf-50 text-ffgolf-800 rounded">
-                {t('user.referee', 'Arbitre')}
+                {t('user.referee', 'Referee')}
               </span>
             </div>
             <div className="flex items-center space-x-4">

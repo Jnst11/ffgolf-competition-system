@@ -1851,7 +1851,7 @@ export const DEFAULT_TRANSLATIONS: Translation[] = [
 // Translation service class
 export class TranslationService {
   private translations: Map<string, Translation> = new Map();
-  private currentLocale: 'en' | 'fr' = 'fr';
+  private currentLocale: 'en' | 'fr' = 'en';
 
   constructor() {
     this.loadStoredLocale();
