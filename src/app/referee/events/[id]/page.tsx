@@ -38,16 +38,16 @@ const eventData = {
   }
 }
 
-// Mock golfer data with scores
+// Mock golfer data with scores and Home Club
 const golfers = [
-  { id: 1, name: 'Martin Dupont', team: 'Golf Club de Paris', handicap: 2.4, phone: '+33 1 23 45 67 89', email: 'm.dupont@golfparis.fr', teetime: '08:00', course: 'Albatros', hole: 1, group: 1, scores: { round1: 71, round2: 69, total: 140, status: 'completed' } },
-  { id: 2, name: 'Jean Martin', team: 'Golf Club de Paris', handicap: 4.1, phone: '+33 1 23 45 67 90', email: 'j.martin@golfparis.fr', teetime: '08:00', course: 'Albatros', hole: 1, group: 1, scores: { round1: 73, round2: 72, total: 145, status: 'completed' } },
-  { id: 3, name: 'Louis Bernard', team: 'Golf Club de Paris', handicap: 6.2, phone: '+33 1 23 45 67 91', email: 'l.bernard@golfparis.fr', teetime: '08:00', course: 'Albatros', hole: 1, group: 1, scores: { round1: 75, round2: null, total: 75, status: 'round1' } },
-  { id: 4, name: 'Pierre Rousseau', team: 'Golf Club de Paris', handicap: 8.3, phone: '+33 1 23 45 67 92', email: 'p.rousseau@golfparis.fr', teetime: '08:00', course: 'Albatros', hole: 1, group: 1, scores: { round1: 77, round2: 75, total: 152, status: 'completed' } },
-  { id: 5, name: 'Antoine Leroy', team: 'RC Bordeaux Golf', handicap: 3.2, phone: '+33 5 56 12 34 56', email: 'a.leroy@bordeauxgolf.fr', teetime: '08:10', course: 'Albatros', hole: 1, group: 2, scores: { round1: 72, round2: 70, total: 142, status: 'completed' } },
-  { id: 6, name: 'Claude Moreau', team: 'RC Bordeaux Golf', handicap: 5.1, phone: '+33 5 56 12 34 57', email: 'c.moreau@bordeauxgolf.fr', teetime: '08:10', course: 'Albatros', hole: 1, group: 2, scores: { round1: 74, round2: 73, total: 147, status: 'completed' } },
-  { id: 7, name: 'Robert Simon', team: 'RC Bordeaux Golf', handicap: 7.4, phone: '+33 5 56 12 34 58', email: 'r.simon@bordeauxgolf.fr', teetime: '08:10', course: 'Albatros', hole: 1, group: 2, scores: { round1: 76, round2: null, total: 76, status: 'round1' } },
-  { id: 8, name: 'François Petit', team: 'RC Bordeaux Golf', handicap: 9.2, phone: '+33 5 56 12 34 59', email: 'f.petit@bordeauxgolf.fr', teetime: '08:10', course: 'Albatros', hole: 1, group: 2, scores: { round1: 78, round2: 76, total: 154, status: 'completed' } },
+  { id: 1, name: 'Martin Dupont', team: 'Golf Club de Paris', homeClub: 'Golf de Saint-Cloud', handicap: 2.4, phone: '+33 1 23 45 67 89', email: 'm.dupont@golfparis.fr', teetime: '08:00', course: 'Albatros', hole: 1, group: 1, isActive: true, scores: { round1: 71, round2: 69, total: 140, status: 'completed' } },
+  { id: 2, name: 'Jean Martin', team: 'Golf Club de Paris', homeClub: 'Golf de Morfontaine', handicap: 4.1, phone: '+33 1 23 45 67 90', email: 'j.martin@golfparis.fr', teetime: '08:00', course: 'Albatros', hole: 1, group: 1, isActive: true, scores: { round1: 73, round2: 72, total: 145, status: 'completed' } },
+  { id: 3, name: 'Louis Bernard', team: 'Golf Club de Paris', homeClub: 'Racing Club de France', handicap: 6.2, phone: '+33 1 23 45 67 91', email: 'l.bernard@golfparis.fr', teetime: '08:00', course: 'Albatros', hole: 1, group: 1, isActive: true, scores: { round1: 75, round2: null, total: 75, status: 'round1' } },
+  { id: 4, name: 'Pierre Rousseau', team: 'Golf Club de Paris', homeClub: 'Golf de Chantaco', handicap: 8.3, phone: '+33 1 23 45 67 92', email: 'p.rousseau@golfparis.fr', teetime: '08:00', course: 'Albatros', hole: 1, group: 1, isActive: true, scores: { round1: 77, round2: 75, total: 152, status: 'completed' } },
+  { id: 5, name: 'Antoine Leroy', team: 'RC Bordeaux Golf', homeClub: 'Golf du Médoc', handicap: 3.2, phone: '+33 5 56 12 34 56', email: 'a.leroy@bordeauxgolf.fr', teetime: '08:10', course: 'Albatros', hole: 1, group: 2, isActive: true, scores: { round1: 72, round2: 70, total: 142, status: 'completed' } },
+  { id: 6, name: 'Claude Moreau', team: 'RC Bordeaux Golf', homeClub: 'Golf de Pessac', handicap: 5.1, phone: '+33 5 56 12 34 57', email: 'c.moreau@bordeauxgolf.fr', teetime: '08:10', course: 'Albatros', hole: 1, group: 2, isActive: true, scores: { round1: 74, round2: 73, total: 147, status: 'completed' } },
+  { id: 7, name: 'Robert Simon', team: 'RC Bordeaux Golf', homeClub: 'Golf de Biscarrosse', handicap: 7.4, phone: '+33 5 56 12 34 58', email: 'r.simon@bordeauxgolf.fr', teetime: '08:10', course: 'Albatros', hole: 1, group: 2, isActive: true, scores: { round1: 76, round2: null, total: 76, status: 'round1' } },
+  { id: 8, name: 'François Petit', team: 'RC Bordeaux Golf', homeClub: 'Golf de Lacanau', handicap: 9.2, phone: '+33 5 56 12 34 59', email: 'f.petit@bordeauxgolf.fr', teetime: '08:10', course: 'Albatros', hole: 1, group: 2, isActive: true, scores: { round1: 78, round2: 76, total: 154, status: 'completed' } },
 ]
 
 // Mock team leaderboard data
@@ -77,11 +77,51 @@ export default function EventManagementPage() {
   const [bulkAssignMode, setBulkAssignMode] = useState(false)
   const [selectedGolfers, setSelectedGolfers] = useState<number[]>([])
   const [editingScore, setEditingScore] = useState<{golferId: number, round: string, value: string} | null>(null)
+  const [editingGolfer, setEditingGolfer] = useState<any>(null)
+  const [golferList, setGolferList] = useState(golfers)
 
   const handleLogout = () => {
     logout()
     window.location.href = '/'
   }
+
+  // Soft delete function
+  const handleSoftDeleteGolfer = (golferId: number) => {
+    setGolferList(prevGolfers => 
+      prevGolfers.map(golfer => 
+        golfer.id === golferId 
+          ? { ...golfer, isActive: false }
+          : golfer
+      )
+    )
+  }
+
+  // Edit golfer function
+  const handleEditGolfer = (golfer: any) => {
+    setEditingGolfer({...golfer})
+  }
+
+  // Save golfer function
+  const handleSaveGolfer = () => {
+    if (!editingGolfer) return
+    
+    setGolferList(prevGolfers => 
+      prevGolfers.map(golfer => 
+        golfer.id === editingGolfer.id 
+          ? editingGolfer
+          : golfer
+      )
+    )
+    setEditingGolfer(null)
+  }
+
+  // Cancel edit function
+  const handleCancelEdit = () => {
+    setEditingGolfer(null)
+  }
+
+  // Filter out soft-deleted golfers for display
+  const activeGolfers = golferList.filter(golfer => golfer.isActive)
 
   const promotionTeams = teamLeaderboard.filter(team => team.bracketType === 'promotion')
   const relegationTeams = teamLeaderboard.filter(team => team.bracketType === 'relegation')
@@ -260,26 +300,36 @@ export default function EventManagementPage() {
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('golf.name', 'Name')}</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('team.team', 'Team')}</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('golf.homeClub', 'Home Club')}</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('golf.handicap', 'Handicap')}</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('common.contact', 'Contact')}</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('common.actions', 'Actions')}</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {golfers.map((golfer) => (
+                {activeGolfers.map((golfer) => (
                   <tr key={golfer.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{golfer.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{golfer.team}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{golfer.homeClub}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{golfer.handicap}</td>
                     <td className="px-6 py-4 text-sm text-gray-500">
                       <div>{golfer.phone}</div>
                       <div className="text-xs">{golfer.email}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button className="text-ffgolf hover:text-ffgolf-800 mr-3">
+                      <button 
+                        onClick={() => handleEditGolfer(golfer)}
+                        className="text-ffgolf hover:text-ffgolf-800 mr-3"
+                        title={t('common.edit', 'Edit')}
+                      >
                         <PencilIcon className="h-4 w-4" />
                       </button>
-                      <button className="text-red-600 hover:text-red-800">
+                      <button 
+                        onClick={() => handleSoftDeleteGolfer(golfer.id)}
+                        className="text-orange-600 hover:text-orange-800"
+                        title={t('golf.deactivateGolfer', 'Deactivate')}
+                      >
                         <TrashIcon className="h-4 w-4" />
                       </button>
                     </td>
@@ -385,7 +435,7 @@ export default function EventManagementPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {golfers.map((golfer) => (
+                {activeGolfers.map((golfer) => (
                   <tr key={golfer.id} className="hover:bg-gray-50">
                     {bulkAssignMode && (
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -528,7 +578,7 @@ export default function EventManagementPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {golfers.map((golfer) => (
+                {activeGolfers.map((golfer) => (
                   <tr key={golfer.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{golfer.name}</div>
@@ -740,6 +790,113 @@ export default function EventManagementPage() {
         {activeTab === 'scoring' && renderScoringTab()}
         {activeTab === 'leaderboard' && renderLeaderboardTab()}
       </div>
+
+      {/* Golfer Edit Modal */}
+      {editingGolfer && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-md bg-white">
+            <div className="flex items-center justify-between pb-4 border-b border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900">
+                {t('golf.editGolfer', 'Edit Golfer')} - {editingGolfer.name}
+              </h3>
+              <button 
+                onClick={handleCancelEdit}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            <div className="mt-4 space-y-4">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">{t('golf.name', 'Name')}</label>
+                <input
+                  type="text"
+                  value={editingGolfer.name}
+                  onChange={(e) => setEditingGolfer({...editingGolfer, name: e.target.value})}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                />
+              </div>
+
+              {/* Team */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">{t('team.team', 'Team')}</label>
+                <input
+                  type="text"
+                  value={editingGolfer.team}
+                  onChange={(e) => setEditingGolfer({...editingGolfer, team: e.target.value})}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                />
+              </div>
+
+              {/* Home Club */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">{t('golf.homeClub', 'Home Club')}</label>
+                <input
+                  type="text"
+                  value={editingGolfer.homeClub}
+                  onChange={(e) => setEditingGolfer({...editingGolfer, homeClub: e.target.value})}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Handicap */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">{t('golf.handicap', 'Handicap')}</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={editingGolfer.handicap}
+                    onChange={(e) => setEditingGolfer({...editingGolfer, handicap: parseFloat(e.target.value)})}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                  />
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">{t('common.phone', 'Phone')}</label>
+                  <input
+                    type="tel"
+                    value={editingGolfer.phone}
+                    onChange={(e) => setEditingGolfer({...editingGolfer, phone: e.target.value})}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                  />
+                </div>
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700">{t('common.email', 'Email')}</label>
+                <input
+                  type="email"
+                  value={editingGolfer.email}
+                  onChange={(e) => setEditingGolfer({...editingGolfer, email: e.target.value})}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-ffgolf focus:border-ffgolf"
+                />
+              </div>
+            </div>
+
+            <div className="mt-6 flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+              <button
+                onClick={handleCancelEdit}
+                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ffgolf"
+              >
+                {t('common.cancel', 'Cancel')}
+              </button>
+              <button
+                onClick={handleSaveGolfer}
+                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-ffgolf hover:bg-ffgolf-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ffgolf"
+              >
+                {t('common.save', 'Save')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
