@@ -1828,17 +1828,23 @@ export class TranslationService {
   }
 
   private loadTranslations() {
-    // In a real app, this would load from localStorage or API
-    const stored = localStorage?.getItem('translations');
-    if (stored) {
-      try {
-        const parsedTranslations: Translation[] = JSON.parse(stored);
-        parsedTranslations.forEach(t => this.translations.set(t.key, t));
-      } catch (e) {
-        console.warn('Failed to load stored translations, using defaults');
+    // Check if running in browser
+    if (typeof window !== 'undefined') {
+      // In a real app, this would load from localStorage or API
+      const stored = localStorage?.getItem('translations');
+      if (stored) {
+        try {
+          const parsedTranslations: Translation[] = JSON.parse(stored);
+          parsedTranslations.forEach(t => this.translations.set(t.key, t));
+        } catch (e) {
+          console.warn('Failed to load stored translations, using defaults');
+          this.loadDefaults();
+        }
+      } else {
         this.loadDefaults();
       }
     } else {
+      // Server-side: just load defaults
       this.loadDefaults();
     }
   }
